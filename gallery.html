@@ -240,7 +240,7 @@
                 </style>
 
                 <!-- YouTube Video -->
-                 <div class="col-lg-4 mb-4">
+                <div class="col-lg-4 mb-4">
                     <div class="p-3 border rounded text-center">
 
                         <video controls playsinline style="width:100%;height: 300px; border-radius:8px;">
@@ -260,7 +260,7 @@
 
                     </div>
                 </div>
-<div class="col-lg-4 mb-4">
+                <div class="col-lg-4 mb-4">
                     <div class="p-3 border rounded text-center">
 
                         <video controls playsinline style="width:100%; height: 300px;border-radius:8px;">
@@ -282,24 +282,35 @@
                 </div>
                 <div class="col-lg-4 mb-4">
                     <div class="p-3 border rounded text-center">
-                        <iframe src="https://www.youtube.com/embed/hIjRSMcyvbw?si=xCFrPSXW2IiLSBwX" style="width:100%;height: 300px;"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-                        </a>
+                        <video controls playsinline style="width:100%;height: 300px; border-radius:8px;">
+                            <source src="assets/img/organicvideo6.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
                     </div>
                 </div>
                 <div class="col-lg-4 mb-4">
                     <div class="p-3 border rounded text-center">
-                        <iframe src="https://www.youtube.com/embed/KL56vvuoj_0?si=WdtI6y5N5Qu7y05u" style="width:100%;height: 300px;"
-                            title="YouTube video player" frameborder="0"
+
+                        <video controls playsinline style="width:100%;height: 300px; border-radius:8px;">
+                            <source src="assets/img/organicvideo5.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                    </div>
+                </div>
+                <!-- <div class="col-lg-4 mb-4">
+                    <div class="p-3 border rounded text-center">
+                        <iframe src="https://www.youtube.com/embed/hIjRSMcyvbw?si=xCFrPSXW2IiLSBwX&enablejsapi=1"
+                            style="width:100%;height: 300px;" title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
                         </a>
                     </div>
-                </div>
+                </div> -->
+                
                 <!-- <div class="col-lg-4 mb-4">
                     <div class="p-3 border rounded text-center">
 
@@ -314,28 +325,9 @@
                     </div>
                 </div> -->
 
-                <div class="col-lg-4 mb-4">
-                    <div class="p-3 border rounded text-center">
-                        <iframe src="https://www.youtube.com/embed/aTG23b5_msY?si=oWM5SMMTWNIwUgTE" style="width:100%;height: 300px;"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="p-3 border rounded text-center">
-                        <iframe src="https://www.youtube.com/embed/iWFa-vCkdpo?si=OSvRK4CFz5_cPqcb" style="width:100%;height: 300px;"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-                        </a>
-                    </div>
-                </div>
                 
-                
+
+
                 <!-- Local Video -->
 
 
@@ -344,19 +336,21 @@
     </section>
     <style>
         .video-box {
-  width: 100%;
-  max-width: 100%;
-  height: 300px;           /* Adjust height here */
-  overflow: hidden;
-  border-radius: 8px;
-}
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            /* Adjust height here */
+            overflow: hidden;
+            border-radius: 8px;
+        }
 
-.video-box video {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;       /* cover | contain */
-  border-radius: 8px;
-}
+        .video-box video {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            /* cover | contain */
+            border-radius: 8px;
+        }
 
         .gallery-item {
             border-radius: 14px;
@@ -477,6 +471,51 @@
         <span id="progress-value"><i class="fa-solid fa-up-long"></i></span>
     </div>
     <!-- Bootstrap Js -->
+     <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const videos = document.querySelectorAll("video");
+
+    videos.forEach(video => {
+        video.addEventListener("play", () => {
+            videos.forEach(other => {
+                if (other !== video) {
+                    other.pause();
+                }
+            });
+        });
+    });
+
+});
+</script>
+
+<script>
+let ytPlayers = [];
+
+function onYouTubeIframeAPIReady() {
+    const iframes = document.querySelectorAll('iframe[src*="youtube.com"]');
+
+    iframes.forEach((iframe, index) => {
+        ytPlayers[index] = new YT.Player(iframe, {
+            events: {
+                onStateChange: onPlayerStateChange
+            }
+        });
+    });
+}
+
+function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING) {
+        ytPlayers.forEach(player => {
+            if (player !== event.target) {
+                player.pauseVideo();
+            }
+        });
+        document.querySelectorAll("video").forEach(v => v.pause());
+    }
+}
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.nice-select.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
